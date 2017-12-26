@@ -1,0 +1,8 @@
+language: cpp
+sudo: required
+
+before_script:
+  - cmake -H. -Bbuild
+
+script:
+  - make -C build
