@@ -6,3 +6,6 @@ before_script:
 
 script:
   - make -C build
+
+after_success:
+  - ./build/Main
