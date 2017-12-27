@@ -1,11 +1,10 @@
 language: cpp
-sudo: required
 
 before_script:
-  - cmake -H. -Bbuild
+- cmake -H. -Bbuild
 
 script:
-  - make -C build
+- make -C build
 
 after_success:
-  - ./build/Main
+- ./build/Main
