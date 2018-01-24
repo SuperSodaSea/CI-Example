@@ -5,26 +5,18 @@ sudo: required
 matrix:
   include:
     - env: CONFIG=Debug CXX=g++-5 FLAGS="-m32"
-      compiler: gcc
     - env: CONFIG=Release CXX=g++-5 FLAGS="-m32"
-      compiler: gcc
     - env: CONFIG=Debug CXX=g++-5 FLAGS="-m64"
-      compiler: gcc
     - env: CONFIG=Release CXX=g++-5 FLAGS="-m64"
-      compiler: gcc
     - env: CONFIG=Debug CXX=clang++ FLAGS="-m32"
-      compiler: clang
     - env: CONFIG=Release CXX=clang++ FLAGS="-m32"
-      compiler: clang
     - env: CONFIG=Debug CXX=clang++ FLAGS="-m64"
-      compiler: clang
     - env: CONFIG=Release CXX=clang++ FLAGS="-m64"
-      compiler: clang
 
 before_script:
 - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
 - sudo apt-get update -qq
-- sudo apt-get install -y g++-5 g++-multilib lib32stdc++6
+- sudo apt-get install -y g++-5 g++-multilib lib32stdc++5 lib64stdc++5
 - $CXX -v
 - cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=$CONFIG -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_CXX_FLAGS=$FLAGS
 
