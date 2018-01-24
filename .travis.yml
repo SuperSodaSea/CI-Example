@@ -1,24 +1,46 @@
-language: cpp
-
 sudo: required
+dist: trusty
+language: cpp
 
 matrix:
   include:
-    - env: CONFIG=Debug CXX=g++-5 FLAGS="-m32"
-    - env: CONFIG=Release CXX=g++-5 FLAGS="-m32"
-    - env: CONFIG=Debug CXX=g++-5 FLAGS="-m64"
-    - env: CONFIG=Release CXX=g++-5 FLAGS="-m64"
-    - env: CONFIG=Debug CXX=clang++ FLAGS="-m32"
-    - env: CONFIG=Release CXX=clang++ FLAGS="-m32"
-    - env: CONFIG=Debug CXX=clang++ FLAGS="-m64"
-    - env: CONFIG=Release CXX=clang++ FLAGS="-m64"
+    - env: EVAL="CXX=g++-5" FLAGS="-m32" CONFIG=Debug
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5-multilib', 'lib32stdc++6']
+    - env: EVAL="CXX=g++-5" FLAGS="-m32" CONFIG=Release
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5-multilib', 'lib32stdc++6']
+    - env: EVAL="CXX=g++-5" FLAGS="-m64" CONFIG=Debug
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+    - env: EVAL="CXX=g++-5" FLAGS="-m64" CONFIG=Release
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+    - env: EVAL="CXX=clang++" FLAGS="-m32" CONFIG=Debug
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5-multilib', 'lib32stdc++6']
+    - env: EVAL="CXX=clang++" FLAGS="-m32" CONFIG=Release
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5-multilib', 'lib32stdc++6']
+    - env: EVAL="CXX=clang++" FLAGS="-m64" CONFIG=Debug
+    - env: EVAL="CXX=clang++" FLAGS="-m64" CONFIG=Release
 
 before_script:
-- sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
-- sudo apt-get update -qq
-- sudo apt-get install -y g++-5 g++-multilib lib32stdc++5 lib64stdc++5
+- eval "${EVAL}"
 - $CXX -v
-- cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=$CONFIG -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_CXX_FLAGS=$FLAGS
+- cmake -H. -Bbuild -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_CXX_FLAGS=$FLAGS -DCMAKE_BUILD_TYPE=$CONFIG
 
 script:
 - make -C build
